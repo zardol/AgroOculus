@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1012">
+  <title>Алгоритм полёта дрона · AgroOculus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='6' fill='%230d1516'/%3E%3Cpath d='m4 29 12-21 4 8-10 17m6-2 9-16 4 7-6 10m6-2 4-7 4 8' fill='none' stroke='%2363e3d0' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="flow-sheet">
+    <nav aria-label="Навигация лаборатории"><a href="index.html#overview">← К схеме обследования</a><a href="index.html#flight">Открыть полёт →</a></nav>
+    <header>
+      <div class="eyebrow">AgroOculus · Рисовый чек № 04</div>
+      <h1>Алгоритм полёта дрона</h1>
+      <p>Симулятор ведёт дрон по точкам маршрута. После облёта система проверяет выбранный сектор и решает, нужен ли ещё один снимок.</p>
+    </header>
+    <div class="flow-columns">
+      <figure class="flow-plate">
+        <figcaption><span class="eyebrow">Этапы 01–03</span><h2>Облёт поля</h2></figcaption>
+        <svg viewBox="0 0 400 590" role="img" aria-labelledby="flight-title flight-desc">
+          <title id="flight-title">Цикл движения по точкам</title>
+          <desc id="flight-desc">Получить данные камеры и выбрать маршрут. На каждом шаге скорректировать скорость и курс, продвинуться и обновить наблюдения. Пока последняя точка не достигнута, повторять шаг движения. В последней точке остановиться и перейти к разбору снимка, обозначенному буквой А.</desc>
+          <defs><marker id="flight-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 8 4 0 8Z"/></marker></defs>
+          <g class="flow-wires" marker-end="url(#flight-arrow)">
+            <path d="M190 40V63"/><path d="M190 115V138"/><path d="M190 190V213"/>
+            <path d="M190 265V288"/><path d="M190 340V362"/>
+            <path d="M308 402H370V239H314"/>
+            <path d="M190 442V474"/><path d="M190 522V554"/>
+          </g>
+          <g class="flow-blocks">
+            <rect class="flow-terminal" x="99" y="8" width="182" height="32" rx="16"/>
+            <rect x="67" y="64" width="246" height="51" rx="3"/>
+            <rect x="67" y="139" width="246" height="51" rx="3"/>
+            <rect x="67" y="214" width="246" height="51" rx="3"/>
+            <rect x="67" y="289" width="246" height="51" rx="3"/>
+            <path class="flow-if" d="M190 363 308 402 190 441 72 402Z"/>
+            <rect x="67" y="475" width="246" height="47" rx="3"/>
+            <circle class="flow-port" cx="190" cy="571" r="16"/>
+          </g>
+          <g class="flow-labels">
+            <text x="190" y="29">Начало обследования</text>
+            <text x="190" y="85">Получить кадр поля</text><text class="flow-detail" x="190" y="104">и два сигнала камеры, Red и NIR</text>
+            <text x="190" y="160">Построить маршрут</text><text class="flow-detail" x="190" y="179">в обход насосной станции</text>
+            <text x="190" y="235">Продвинуться к точке</text><text class="flow-detail" x="190" y="254">PID уточняет курс и скорость</text>
+            <text x="190" y="310">Обновить наблюдения</text><text class="flow-detail" x="190" y="329">GPS и видимые ориентиры</text>
+            <text x="190" y="399">Достигнута</text><text x="190" y="416">последняя точка?</text>
+            <text class="flow-branch" x="338" y="392">Нет</text><text class="flow-branch" x="210" y="462">Да</text>
+            <text x="190" y="495">Завершить полёт</text><text class="flow-detail" x="190" y="513">скорость дрона равна нулю</text>
+            <text class="flow-port-label" x="190" y="576">А</text>
+          </g>
+        </svg>
+        <p>При потере первого кадра камера повторяет съёмку. В полёте PID-регулятор каждые 0,05 с исправляет отклонения курса и скорости. Симулятор обновляет GPS и ориентиры каждые 0,5 с и в конце маршрута.</p>
+      </figure>
+      <figure class="flow-plate">
+        <figcaption><span class="eyebrow">Этапы 04–07</span><h2>Проверка сектора</h2></figcaption>
+        <svg viewBox="0 0 400 590" role="img" aria-labelledby="sector-title sector-desc">
+          <title id="sector-title">Развилка решения о контрольном снимке</title>
+          <desc id="sector-desc">От перехода А обработать кадр, открыть карту и перевести GPS в метры. Если NDVI ниже порога и есть хотя бы один подтверждающий признак, сделать один контрольный снимок. Во всех остальных случаях оставить плановую съёмку. Обе ветви завершают проверку.</desc>
+          <defs><marker id="sector-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 8 4 0 8Z"/></marker></defs>
+          <g class="flow-wires" marker-end="url(#sector-arrow)">
+            <path d="M170 41V60"/><path d="M170 102V124"/><path d="M170 166V188"/><path d="M170 230V248"/>
+            <path d="M170 318V350"/><path d="M170 421V446H100V470"/>
+            <path d="M285 283H350V446H297V470"/>
+            <path d="M200 540V552"/>
+          </g>
+          <path class="flow-wires" d="M285 386H350"/>
+          <path class="flow-wires" d="M100 521V540H297V521"/>
+          <circle class="flow-join" cx="350" cy="386" r="2.5"/>
+          <circle class="flow-join" cx="200" cy="540" r="2.5"/>
+          <g class="flow-blocks">
+            <circle class="flow-port" cx="170" cy="25" r="16"/>
+            <rect x="47" y="61" width="246" height="41" rx="3"/>
+            <rect x="47" y="125" width="246" height="41" rx="3"/>
+            <rect x="47" y="189" width="246" height="41" rx="3"/>
+            <path class="flow-if" d="M170 249 285 283 170 317 55 283Z"/>
+            <path class="flow-if" d="M170 351 285 386 170 421 55 386Z"/>
+            <rect x="12" y="471" width="176" height="50" rx="3"/>
+            <rect x="209" y="471" width="176" height="50" rx="3"/>
+            <rect class="flow-terminal" x="116" y="553" width="168" height="33" rx="16"/>
+          </g>
+          <g class="flow-labels">
+            <text class="flow-port-label" x="170" y="30">А</text>
+            <text x="170" y="86">Найти пятна на снимке</text>
+            <text x="170" y="150">Открыть карту ориентиров</text>
+            <text x="170" y="214">Перевести GPS в метры</text>
+            <text x="170" y="280">NDVI ниже</text><text x="170" y="297">порога?</text>
+            <text class="flow-branch" x="316" y="274">Нет</text><text class="flow-branch" x="189" y="339">Да</text>
+            <text x="170" y="383">Есть хотя бы</text><text x="170" y="400">один признак?</text>
+            <text class="flow-branch" x="316" y="378">Нет</text><text class="flow-branch" x="147" y="440">Да</text>
+            <text x="100" y="493">Сделать один</text><text x="100" y="510">контрольный снимок</text>
+            <text x="297" y="493">Оставить сектор</text><text x="297" y="510">в плановой съёмке</text>
+            <text x="200" y="575">Проверка завершена</text>
+          </g>
+        </svg>
+        <p><b>Признак для повторной съёмки</b> — индекс растительности NDVI упал с прошлой даты, детектор выделил пятно или уточнённый фильтром NDVI тоже ниже порога.</p>
+      </figure>
+    </div>
+  </main>
+</body>
+</html>

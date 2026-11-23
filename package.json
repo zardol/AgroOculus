@@ -1,0 +1,10 @@
+{
+  "name": "agrooculus",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "start": "node server/local.mjs",
+    "build": "node server/build.mjs"
+  }
+}

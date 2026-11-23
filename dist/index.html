@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1012" />
+    <meta
+      name="description"
+      content="Учебная лаборатория обследования рисового поля. Семь этапов от снимка до решения о повторной съёмке."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='6' fill='%230d1516'/%3E%3Cpath d='m4 29 12-21 4 8-10 17m6-2 9-16 4 7-6 10m6-2 4-7 4 8' fill='none' stroke='%2363e3d0' stroke-width='2'/%3E%3C/svg%3E"
+    />
+    <title>AgroOculus · Схема обследования</title>
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="model.js"></script>
+    <script defer src="lab-camera.js"></script>
+    <script defer src="lab-yolo.js"></script>
+    <script defer src="lab-detector.js"></script>
+    <script defer src="lab-weights.js"></script>
+    <script defer src="lab-calibration.js"></script>
+    <script defer src="field-lab.js"></script>
+    <script defer src="camera-feed.js"></script>
+    <script defer src="survey-map.js"></script>
+    <script defer src="methods.js"></script>
+    <script defer src="charts.js"></script>
+    <script defer src="formulas.js"></script>
+    <script defer src="instruments.js"></script>
+    <script defer src="app.js"></script>
+    <script defer src="session.js"></script>
+  </head>
+  <body>
+    <a href="#main" id="skip">К содержимому</a>
+    <header class="top">
+      <a class="brand" href="#overview" aria-label="AgroOculus, главная схема"
+        ><svg viewBox="0 0 38 36" fill="none" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="2.3" stroke-linecap="square">
+            <path d="m4 26 11-19 4 7-11 19m5-3 10-18 5 8-6 11m5-1 5-8 4 7" />
+          </g></svg
+        ><strong>AgroOculus</strong></a
+      >
+      <div class="crumb">
+        <span>Рабочая станция</span><i>/</i><b id="breadcrumb">Обзор</b>
+      </div>
+      <div class="system">
+        <span class="pulse-dot"></span> Симулятор <span class="topdiv"></span
+        ><time id="clock"></time>
+      </div>
+    </header>
+    <div class="shell">
+      <aside id="rail">
+        <nav id="navigation" aria-label="Навигация по обследованию"></nav>
+        <div class="railfoot">
+          <div class="eyebrow">Площадка</div>
+          <strong>Рисовый чек № 04</strong><small>Сырдарьинский район</small>
+        </div>
+      </aside>
+      <main id="main" tabindex="-1">
+        <header id="intro"></header>
+        <section
+          class="toolbar"
+          aria-label="Управление демонстрацией"
+          id="toolbar"
+        ></section>
+        <div id="workspace"></div>
+        <section class="logbox" aria-label="Журнал сеанса">
+          <div class="panel-heading">
+            <h2>Журнал сеанса</h2>
+            <span class="smallmeta" id="logcount"></span>
+          </div>
+          <ol id="logs"></ol>
+        </section>
+      </main>
+    </div>
+    <div id="demo-pointer" aria-hidden="true">
+      <svg viewBox="0 0 27 30">
+        <path
+          d="M2 2v23l6.1-6.4 5 10 5-2.5-5-9.5h9z"
+          fill="#7bf3de"
+          stroke="#0a2421"
+          stroke-width="2"
+        /></svg
+      ><span>Демо</span>
+    </div>
+    <div id="notice" class="sr" role="status" aria-live="polite"></div>
+    <noscript>Для запуска лаборатории включите JavaScript.</noscript>
+  </body>
+</html>

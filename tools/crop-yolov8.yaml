@@ -1,0 +1,12 @@
+# A single stride-eight detection head for the simulator's close-up rice camera.
+nc: 2
+depth_multiple: 1.0
+width_multiple: 1.0
+backbone:
+  - [-1, 1, Conv, [8, 3, 2]]
+  - [-1, 1, Conv, [16, 3, 2]]
+  - [-1, 1, C2f, [16, true]]
+  - [-1, 1, Conv, [24, 3, 2]]
+  - [-1, 1, C2f, [24, true]]
+head:
+  - [[-1], 1, Detect, [nc]]
